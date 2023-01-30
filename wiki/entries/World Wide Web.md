@@ -1,0 +1,4 @@
+# World Wide Web
+The **World Wide Web** (**WWW**), commonly known as the **Web**, is an [information system](https://en.wikipedia.org/wiki/Information_system "Information system") enabling documents and other [web resources](https://en.wikipedia.org/wiki/Web_resource "Web resource") to be accessed over the [Internet](https://en.wikipedia.org/wiki/Internet "Internet").[[1]](https://en.wikipedia.org/wiki/World_Wide_Web#cite_note-1)
+
+Documents and downloadable media are made available to the network through [web servers](https://en.wikipedia.org/wiki/Web_server "Web server") and can be accessed by programs such as [web browsers](https://en.wikipedia.org/wiki/Web_browser "Web browser"). Servers and resources on the World Wide Web are identified and located through character strings called [uniform resource locators](https://en.wikipedia.org/wiki/Uniform_resource_locator "Uniform resource locator") (URLs).

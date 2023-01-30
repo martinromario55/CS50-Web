@@ -43,7 +43,8 @@ def search(request):
             # print(matches)
             return render(request, "encyclopedia/entries.html", {"entries":result, "matches":matches, "query":query})
     
-        return render(request, "encyclopedia/entries.html", {"entries":result})
+        # return render(request, "encyclopedia/entries.html", {"entries":result})
+        return redirect(f'/wiki/{query}')
 
 
 # Create Form for new page
