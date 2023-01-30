@@ -9,14 +9,14 @@
     {% if  entries%}
     {{ entries | markdownify }}
     <a href="{% url 'wiki:edit_markdown_view' file_path=title%}">Edit Page</a>
+    {% elif None %}
+    <h4>Request Not Found!</h4>
     {% else %}
         <h4>Request Not Found!</h4>
-        <p>Here are some of the related results to your search "{{ query }}"</p>
         <ul>
             {% for match in matches %}
+            <p>Here are some of the related results to your search "{{ query }}"</p>
             <li><a href="/wiki/{{match}}">{{ match }}</a></li>
-            {% empty %}
-            <li>No related result</li>
             {% endfor %}
         </ul>
     {% endif %}

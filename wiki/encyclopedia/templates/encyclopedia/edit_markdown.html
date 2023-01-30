@@ -7,7 +7,7 @@
 {% block body %}
 
     <h1>Edit Page</h1>
-   <form action="{% url 'wiki:edit_markdown_view' file_path=file_path%}" method="post">
+   <form action="{% url 'wiki:edit_markdown_view' file_path=file_path%}" method="post" class="form-group">
     {% include "encyclopedia/messages.html" %}
     {% csrf_token %}
     {{ form }}

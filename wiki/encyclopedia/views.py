@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect, get_list_or_404
+from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from .util import *
 from . import util
@@ -12,7 +12,7 @@ import random
 
 # Get matching results
 # The query and list_entries are lowercased to remove case sensitivity
-def get_match(query, choices, limit=1, threshold=80):
+def get_match(query, choices, limit=1, threshold=50):
     results = [(choice, fuzz.ratio(choice.lower(), query.lower())) for choice in choices]
     results = sorted(results, key=lambda x: x[1], reverse=True)
     return [choice for choice, ratio in results if ratio >= threshold]
@@ -26,7 +26,9 @@ def index(request):
 def wiki_entry(request, title):
     # entries = markdown.markdown(get_entry(title))
     entries = get_entry(title)
+    
     return render(request, "encyclopedia/entries.html", {"entries": entries, "title":title})
+
 
 def search(request):
     query = request.GET.get('q', '')
@@ -46,11 +48,11 @@ def search(request):
 
 # Create Form for new page
 class NewPageForm(forms.Form):
-    title = forms.CharField(label="Page Title")
-    page_details = forms.CharField(widget=forms.Textarea)
+    title = forms.CharField(label="Page Title", min_length=1)
+    page_details = forms.CharField(widget=forms.Textarea, min_length=10)
 
-    title.widget.attrs.update({'class': 'form-control mt-3 mb-3'})
-    page_details.widget.attrs.update({'class': 'form-control'})
+    title.widget.attrs.update({'class': 'form-control mt-3 mb-3 w-75'})
+    page_details.widget.attrs.update({'class': 'form-control w-75'})
 
 def create_new_page(request):
     # Check if method is POST
@@ -86,11 +88,11 @@ def create_new_page(request):
 # Edit File
 # Create Form for new page
 class MarkdownForm(forms.Form):
-    title = forms.CharField(label="Page Title")
-    page_details = forms.CharField(widget=forms.Textarea)
+    title = forms.CharField(label="Page Title", min_length=1)
+    page_details = forms.CharField(widget=forms.Textarea, min_length=10)
 
-    title.widget.attrs.update({'class': 'form-control mt-3 mb-3'})
-    page_details.widget.attrs.update({'class': 'form-control'})
+    title.widget.attrs.update({'class': 'form-control mt-3 mb-3 w-75'})
+    page_details.widget.attrs.update({'class': 'form-control w-75'})
 
 
 def edit_markdown_view(request, file_path):
