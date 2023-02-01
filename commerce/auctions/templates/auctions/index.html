@@ -1,0 +1,15 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+
+    <h3>Auction List</h3>
+    
+    {% for list in current_user_list %}
+        <p>Title: {{ list.title }} </p>
+        <p>Description: {{ list.description }} </p>
+        <p>Bid amount: {{ list.bid_amount }} </p>
+        <p>image: </p><img src="{{ MEDIA_url }}{{list.image}}" alt="{{ list.image }}" srcset="">
+        <p>Category: {{ list.category }} </p> 
+    {% endfor %}
+{% endblock %}
