@@ -9,8 +9,9 @@ class CreateListingForm(forms.ModelForm):
     bid_amount = forms.IntegerField(min_value=1)
     image = forms.ImageField(validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])], required=False)
     # category = forms.CharField(choices=Categories.objects.all(), widget=forms.Select(attrs={'class': 'custom-select'}))
-    category_choices = [(None, '------')] + [(category.id, category.title) for category in Categories.objects.all()]
+    category_choices = [(None, '------')] + [(category.id, category.name) for category in Category.objects.all()]
     category = forms.ChoiceField(choices=category_choices, required=False)
+
     class Meta:
         model = Auction_listings
         fields = ['title', 'description', 'bid_amount', 'image', 'category']

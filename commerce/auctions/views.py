@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from .models import User
 from .forms import *
@@ -10,6 +10,11 @@ import uuid
 
 
 def index(request):
+    # Show all listings
+    listings = Auction_listings.objects.all()
+    # for list in listings:
+        # print(list.id)
+    # Show user listings
     if request.user.is_authenticated:
         # Get current user
         current_user = User.objects.get(username=request.user.username)
@@ -17,7 +22,7 @@ def index(request):
         current_user_list = Auction_listings.objects.filter(user_id=current_user)
         # for list in current_user_list:
         #     print(list.title, list.description)
-        return render(request, "auctions/index.html", {"current_user_list":current_user_list})
+        return render(request, "auctions/index.html", {"current_user_list":current_user_list, "listings":listings})
     return render(request, "auctions/index.html")
 
 
@@ -87,19 +92,7 @@ def create_listing(request):
             # Add username
             username = request.user.username
             user = User.objects.get(username=username)
-            data.user_id = user
-
-            # save image
-            if request.FILES.get('image'):
-                image = request.FILES['image']
-                image_name = str(uuid.uuid4()) + '.jpg'
-                data.image = image_name
-
-                # save image on in the project folder
-                image_path = 'images/' + image_name
-                with open(image_path, 'wb+') as destination:
-                    for chunk in image.chunks():
-                        destination.write(chunk)
+            data.user = user
 
             data.save()
             return HttpResponseRedirect(reverse("index"))
@@ -111,3 +104,9 @@ def create_listing(request):
 
     form = CreateListingForm()
     return render(request, 'auctions/create_listing.html', {"form":form})
+
+
+
+def list_view(request, title):
+    list = get_object_or_404(Auction_listings,title=title)
+    return render(request, 'auctions/list_view.html', {"list":list})
